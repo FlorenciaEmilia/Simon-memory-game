@@ -1,0 +1,23 @@
+#game-container {
+  display: flex;
+}
+
+.game-button {
+  height: 200px;
+  width: 200px;
+  border: 2px solid black;
+}
+#game-container > div:nth-of-type(1) {
+  background-color: yellow;
+}
+#game-container > div:nth-of-type(2) {
+  background-color: blue;
+}
+
+#game-container > div:nth-of-type(3) {
+  background-color: red;
+}
+
+#game-container > div:nth-of-type(4) {
+  background-color: green;
+}
