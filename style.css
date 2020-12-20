@@ -7,7 +7,7 @@
   width: 200px;
   border: 2px solid black;
 }
-#game-container > div:nth-of-type(1) {
+/* #game-container > div:nth-of-type(1) {
   background-color: yellow;
 }
 #game-container > div:nth-of-type(2) {
@@ -20,4 +20,4 @@
 
 #game-container > div:nth-of-type(4) {
   background-color: green;
-}
+} */

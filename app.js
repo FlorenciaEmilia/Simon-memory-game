@@ -10,11 +10,24 @@ const simonColors = {
 };
 //iterations in the game
 let amountOfIterations = 1;
+let pcTurn = [];
+let userTurn = [];
 
 function squarePicker() {
   return Math.floor(Math.random() * gameButtons.length);
 }
 
+function gamePlay() {
+  //Once the start game light one of the game buttons
+  let squareThatWillLightUp = squarePicker();
+  //Set a time out here in the future
+  document.gameButtons[squareThatWillLightUp].style.backgroundColor =
+    simonColors[squareThatWillLightUp];
+}
+
 gameStarter.addEventListener("click", () => {
-  console.log(squarePicker());
+  // console.log(squarePicker());
+  gamePlay();
 });
+
+//Try just one time to play and then add turns and more iterations
