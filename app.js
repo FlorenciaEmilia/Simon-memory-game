@@ -1,5 +1,9 @@
 const gameButtons = document.querySelectorAll(".game-button");
 const gameStarter = document.getElementById("game-starter");
+const turnInfo = document.getElementById("turn-info");
+
+//When the game starts the buttons are disabled
+gameButtons.forEach((button) => (button.disabled = true));
 
 //colors for the squares
 const simonColors = {
@@ -9,7 +13,7 @@ const simonColors = {
   3: "green",
 };
 //iterations in the game
-let amountOfIterations = 3;
+let amountOfIterations = 0;
 
 let pcTurnStack = [];
 let userTurnStack = [];
@@ -18,63 +22,71 @@ function squarePicker() {
   return Math.floor(Math.random() * gameButtons.length);
 }
 
-function removeEventListeners(array) {
-  for (let elem of array) {
-    elem.removeEventListener("click", userPick);
-  }
-}
-
-function addEventListeners(array) {
-  //Pass the index to be able to push it into the user stack
-  array.forEach((elem, index) => {
-    elem.addEventListener("click", () => {
-      userPick(index);
-      if (
-        pcTurnStack[amountOfIterations - 1] !==
-        userTurnStack[amountOfIterations - 1]
-      ) {
-        alert("Game over");
-      } else {
-        gamePlay();
-      }
-    });
-  });
-}
-
-function userPick(index) {
-  userTurnStack.push(index);
-  console.log(userTurnStack);
-}
-
-function colorChange(elementIndex) {
+//Color change functions
+function colorChange(elementIndex, delay = 500) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor =
         simonColors[elementIndex];
       resolve();
-    }, 500);
-    //Be aware of bugs here
+    }, delay);
+  });
+}
+
+function colorChangeWhite(elementIndex) {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor = "white";
+      resolve();
     }, 1000);
   });
 }
 
-async function computerTurn() {
-  //if there are any event listeners remove them
-  removeEventListeners(gameButtons);
+async function colorToggle(elementIndex, delay = 500) {
+  await colorChange(elementIndex, delay);
+  await colorChangeWhite(elementIndex);
+}
 
+async function computerTurn() {
+  turnInfo.innerText = "PC turn";
+
+  //Loop to show the pc Stack for user to memorize it
   for (let i = 0; i < pcTurnStack.length; i++) {
-    await colorChange(pcTurnStack[i]);
+    await colorToggle(pcTurnStack[i]);
   }
 
-  //Once the start game light one of the game buttons
+  //Once the game start light one of the game buttons
   let squareThatWillLightUp = squarePicker();
-
-  await colorChange(squareThatWillLightUp);
-
+  await colorToggle(squareThatWillLightUp);
   pcTurnStack.push(squareThatWillLightUp);
+
+  userTurn();
+  gameButtons.forEach((button) => (button.disabled = false));
+  userTurnStack = [];
+
   console.log(pcTurnStack);
+}
+
+async function userPick(index) {
+  userTurnStack.push(index);
+  await colorToggle(index, 0);
+
+  let indexChecker = userTurnStack.length - 1;
+
+  if (pcTurnStack[indexChecker] !== userTurnStack[indexChecker]) {
+    console.log("user stack ", userTurnStack);
+    console.log("pc stack ", pcTurnStack);
+    alert("wrong");
+  } else if (pcTurnStack.length == userTurnStack.length) {
+    computerTurn();
+    gameButtons.forEach((button) => (button.disabled = true));
+    console.log("now it will be the computer turn");
+  }
+}
+
+async function userTurn(index) {
+  // addEventListeners(gameButtons);
+  turnInfo.innerText = "Your Turn 🐥";
 }
 
 function gamePlay() {
@@ -82,8 +94,12 @@ function gamePlay() {
 }
 
 gameStarter.addEventListener("click", () => {
-  // console.log(squarePicker());
+  // Once the game starts disable the start button!
   gamePlay();
 });
 
-//Try just one time to play and then add turns and more iterations
+gameButtons.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    userPick(index);
+  });
+});
