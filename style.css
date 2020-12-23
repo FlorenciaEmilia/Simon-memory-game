@@ -1,3 +1,10 @@
+h1 {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  font-size: 3em;
+  text-align: center;
+}
+
 #game-container {
   display: flex;
 }
@@ -6,18 +13,19 @@
   height: 200px;
   width: 200px;
   border: 2px solid black;
+  outline: none;
 }
-/* #game-container > div:nth-of-type(1) {
-  background-color: yellow;
+#game-container > button:nth-of-type(1) {
+  border-radius: 600px 0px 0px 0px;
 }
-#game-container > div:nth-of-type(2) {
-  background-color: blue;
-}
-
-#game-container > div:nth-of-type(3) {
-  background-color: red;
+#game-container > button:nth-of-type(2) {
+  border-radius: 0px 600px 0px 0px;
 }
 
-#game-container > div:nth-of-type(4) {
-  background-color: green;
-} */
+#game-container > button:nth-of-type(3) {
+  border-radius: 0px 0px 0px 600px;
+}
+
+#game-container > button:nth-of-type(4) {
+  border-radius: 0px 0px 600px 0px;
+}

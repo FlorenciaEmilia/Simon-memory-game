@@ -76,7 +76,10 @@ async function userPick(index) {
   if (pcTurnStack[indexChecker] !== userTurnStack[indexChecker]) {
     console.log("user stack ", userTurnStack);
     console.log("pc stack ", pcTurnStack);
+    turnInfo.innerText = "You Lost Boo Boo 🐡";
     alert("wrong");
+    gameStarter.disabled = false;
+    gameStarter.innerText = "Play Again🙇🏽‍♀️";
   } else if (pcTurnStack.length == userTurnStack.length) {
     computerTurn();
     gameButtons.forEach((button) => (button.disabled = true));
@@ -96,6 +99,7 @@ function gamePlay() {
 gameStarter.addEventListener("click", () => {
   // Once the game starts disable the start button!
   gamePlay();
+  gameStarter.disabled = true;
 });
 
 gameButtons.forEach((button, index) => {
