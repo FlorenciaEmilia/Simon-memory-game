@@ -6,7 +6,16 @@ h1 {
 }
 
 #game-container {
-  display: flex;
+  /* display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center; */
+  /* width: 30vw; */
+  margin: 0 auto;
+  height: 590px;
+  width: 590px;
+  z-index: 1;
+  position: relative;
 }
 
 .game-button {
@@ -15,17 +24,34 @@ h1 {
   border: 2px solid black;
   outline: none;
 }
+
+#game-container > button {
+  padding: 20px;
+  width: 280px;
+  height: 280px;
+  display: inline-block;
+}
+
 #game-container > button:nth-of-type(1) {
   border-radius: 600px 0px 0px 0px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  z-index: 2;
 }
 #game-container > button:nth-of-type(2) {
   border-radius: 0px 600px 0px 0px;
+  margin-bottom: 20px;
+  z-index: 2;
 }
 
 #game-container > button:nth-of-type(3) {
   border-radius: 0px 0px 0px 600px;
+  margin-right: 20px;
+  margin-top: -55px;
+  z-index: 1;
 }
 
 #game-container > button:nth-of-type(4) {
   border-radius: 0px 0px 600px 0px;
+  z-index: 1;
 }
