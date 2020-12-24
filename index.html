@@ -12,7 +12,6 @@
     />
   </head>
   <body>
-    <h1>Simon</h1>
     <div id="game-container">
       <button class="game-button"></button>
       <button class="game-button"></button>
@@ -20,8 +19,20 @@
       <button class="game-button"></button>
     </div>
     <p id="turn-info"></p>
-    <div id="game-buttons">
-      <button id="game-starter">Start Game</button>
+    <div id="game-functions">
+      <div class="function-holder">
+        <h1>Simon</h1>
+        <div id="button-row">
+          <!-- Change js of the buttons because now they wont display a message -->
+          <label for="game-starter">Start</label>
+          <button id="game-starter" class="little-button"></button>
+          <!-- Last two buttons won't work yet -->
+          <label for="game-strict">Strict</label>
+          <button id="game-strict" class="little-button"></button>
+          <label for="game-reset">Reset</label>
+          <button is="game-reset" class="little-button"></button>
+        </div>
+      </div>
     </div>
     <script src="app.js"></script>
   </body>

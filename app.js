@@ -7,10 +7,10 @@ gameButtons.forEach((button) => (button.disabled = true));
 
 //colors for the squares
 const simonColors = {
-  0: "yellow",
-  1: "blue",
-  2: "red",
-  3: "green",
+  0: ["rgb(255, 255, 0)", "rgba(255, 255, 0, 0.3)"],
+  1: [" rgb(0, 0, 255)", "rgba(0, 0, 255, 0.3)"],
+  2: ["rgb(255, 0, 0)", "rgba(255, 0, 0, 0.3)"],
+  3: ["rgb(0, 255, 0)", "rgba(0, 255, 0, 0.3)"],
 };
 //iterations in the game
 let amountOfIterations = 0;
@@ -27,16 +27,18 @@ function colorChange(elementIndex, delay = 500) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor =
-        simonColors[elementIndex];
+        simonColors[elementIndex][0];
       resolve();
     }, delay);
   });
 }
 
+//Delete this function in the future to dry the code
 function colorChangeWhite(elementIndex) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      gameButtons[elementIndex].style.backgroundColor = "white";
+      gameButtons[elementIndex].style.backgroundColor =
+        simonColors[elementIndex][1];
       resolve();
     }, 1000);
   });
