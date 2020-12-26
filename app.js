@@ -1,16 +1,16 @@
 const gameButtons = document.querySelectorAll(".game-button");
 const gameStarter = document.getElementById("game-starter");
-const turnInfo = document.getElementById("turn-info");
+const gameIterations = document.querySelector("#score");
 
 //When the game starts the buttons are disabled
 gameButtons.forEach((button) => (button.disabled = true));
 
 //colors for the squares
 const simonColors = {
-  0: ["rgb(255, 255, 0)", "rgba(255, 255, 0, 0.3)"],
-  1: [" rgb(0, 0, 255)", "rgba(0, 0, 255, 0.3)"],
-  2: ["rgb(255, 0, 0)", "rgba(255, 0, 0, 0.3)"],
-  3: ["rgb(0, 255, 0)", "rgba(0, 255, 0, 0.3)"],
+  0: ["rgb(255, 255, 194)", "rgb(255, 255, 0)"],
+  1: ["rgb(172, 172, 250)", " rgb(0, 0, 255)"],
+  2: ["rgb(247, 163, 163)", "rgb(255, 0, 0)"],
+  3: ["rgb(158, 255, 158)", "rgb(0, 255, 0)"],
 };
 //iterations in the game
 let amountOfIterations = 0;
@@ -50,8 +50,6 @@ async function colorToggle(elementIndex, delay = 500) {
 }
 
 async function computerTurn() {
-  turnInfo.innerText = "PC turn";
-
   //Loop to show the pc Stack for user to memorize it
   for (let i = 0; i < pcTurnStack.length; i++) {
     await colorToggle(pcTurnStack[i]);
@@ -61,6 +59,8 @@ async function computerTurn() {
   let squareThatWillLightUp = squarePicker();
   await colorToggle(squareThatWillLightUp);
   pcTurnStack.push(squareThatWillLightUp);
+  //Display the length of stack
+  gameIterations.value = `${pcTurnStack.length}`;
 
   userTurn();
   gameButtons.forEach((button) => (button.disabled = false));
@@ -78,7 +78,7 @@ async function userPick(index) {
   if (pcTurnStack[indexChecker] !== userTurnStack[indexChecker]) {
     console.log("user stack ", userTurnStack);
     console.log("pc stack ", pcTurnStack);
-    turnInfo.innerText = "You Lost Boo Boo 🐡";
+
     alert("wrong");
     gameStarter.disabled = false;
     gameStarter.innerText = "Play Again🙇🏽‍♀️";
@@ -91,7 +91,6 @@ async function userPick(index) {
 
 async function userTurn(index) {
   // addEventListeners(gameButtons);
-  turnInfo.innerText = "Your Turn 🐥";
 }
 
 function gamePlay() {
