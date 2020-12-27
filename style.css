@@ -122,7 +122,15 @@ label {
 }
 
 #game-starter {
+  background-color: #2ac92f;
+}
+
+#game-strict {
   background-color: #c92a38;
+}
+
+#game-reset {
+  background-color: #c9c92a;
 }
 
 #strict-mode {
