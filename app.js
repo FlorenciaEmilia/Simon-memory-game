@@ -2,6 +2,7 @@ const gameButtons = document.querySelectorAll(".game-button");
 const gameStarter = document.getElementById("game-starter");
 const gameStrict = document.getElementById("game-strict");
 const gameIterations = document.querySelector("#score");
+const gameReset = document.getElementById("game-reset");
 
 const gameInfo = document.getElementById("game-info");
 
@@ -150,6 +151,14 @@ gameStarter.addEventListener("click", () => {
 gameStrict.addEventListener("click", () => {
   //change game strict variable to be set to the opposite
   gameStrictToggle = !gameStrictToggle;
+});
+
+//Reset Game
+gameReset.addEventListener("click", () => {
+  pcTurnStack = [];
+  userTurnStack = [];
+  gameIterations.value = "--";
+  gameStarter.disabled = false;
 });
 //Modify the userTurn function
 gameButtons.forEach((button, index) => {
