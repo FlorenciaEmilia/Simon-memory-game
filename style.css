@@ -8,8 +8,12 @@ h1 {
   text-align: center;
   margin-bottom: 10px;
 }
-p {
-  color: white;
+
+button {
+  outline: none;
+}
+button:hover {
+  cursor: pointer;
 }
 
 #game-container {
@@ -29,7 +33,6 @@ p {
   height: 200px;
   width: 200px;
   border: 2px solid white;
-  outline: none;
 }
 
 #game-container > button {
@@ -112,7 +115,8 @@ label {
   box-shadow: 0 0 1.5em 0.1em rgba(14, 54, 1, 0.25) inset;
   width: 1.2em;
   height: 1em;
-  color: white;
+  color: rgb(133, 133, 133);
+  font-family: "VT323", monospace;
 }
 .little-button {
   width: 18px;
@@ -123,7 +127,9 @@ label {
   background: black;
   margin: auto;
 }
-
+.strict-mode-light {
+  background-color: red !important;
+}
 #game-starter {
   background-color: #2ac92f;
 }
@@ -136,7 +142,7 @@ label {
   background-color: #c9c92a;
 }
 
-#strict-mode {
+.strict-mode {
   vertical-align: top;
 
   padding: 4px;

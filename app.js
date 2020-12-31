@@ -3,8 +3,9 @@ const gameStarter = document.getElementById("game-starter");
 const gameStrict = document.getElementById("game-strict");
 const gameIterations = document.querySelector("#score");
 const gameReset = document.getElementById("game-reset");
-
-const gameInfo = document.getElementById("game-info");
+const gameStrictLight = document.querySelector(".strict-mode");
+let timerColorUp;
+let timerColorDown;
 
 //When the game starts the buttons are disabled
 gameButtons.forEach((button) => (button.disabled = true));
@@ -47,9 +48,13 @@ function squarePicker() {
 //Color change functions
 function colorChange(elementIndex, delay = 500) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
+    timerColorUp = setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor =
         simonData[elementIndex].lightColor;
+      gameButtons[
+        elementIndex
+      ].style.boxShadow = `3px 3px 20px ${simonData[elementIndex].lightColor}`;
+
       simonData[elementIndex].sound.play();
 
       resolve();
@@ -57,12 +62,12 @@ function colorChange(elementIndex, delay = 500) {
   });
 }
 
-//Delete this function in the future to dry the code
-function colorChangeWhite(elementIndex) {
+function colorChangeToNormal(elementIndex) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
+    timerColorDown = setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor =
         simonData[elementIndex].darkerColor;
+      gameButtons[elementIndex].style.boxShadow = `none`;
       resolve();
     }, 1000);
   });
@@ -72,7 +77,7 @@ async function colorToggle(elementIndex, delay = 500) {
   //Make buttons be disabled while the color changes
   gameButtons.forEach((button) => (button.disabled = true));
   await colorChange(elementIndex, delay);
-  await colorChangeWhite(elementIndex);
+  await colorChangeToNormal(elementIndex);
   //Once the promise has been fulfilled the buttons are back
   gameButtons.forEach((button) => (button.disabled = false));
 }
@@ -87,36 +92,32 @@ async function computerTurn() {
   let squareThatWillLightUp = squarePicker();
   await colorToggle(squareThatWillLightUp);
   pcTurnStack.push(squareThatWillLightUp);
-  //Display the length of stack
-  //Move the length of the stack once the user chooses the right square
-  gameIterations.value = `${pcTurnStack.length}`;
 
-  // userTurn();
   //The game will able the buttons that will let the user pick the pattern
   gameButtons.forEach((button) => (button.disabled = false));
   userTurnStack = [];
-
-  console.log(pcTurnStack);
 }
 
 async function userPick(index) {
-  gameInfo.innerHTML = "user turn";
   userTurnStack.push(index);
   await colorToggle(index, 0);
 
   let indexChecker = userTurnStack.length - 1;
 
-  //Make 2 separate statements for either the game is strict or no
   if (pcTurnStack[indexChecker] !== userTurnStack[indexChecker]) {
-    gameInfo.innerHTML = "wrong";
     userTurnStack = [];
-
-    console.log("user stack ", userTurnStack);
-    console.log("pc stack ", pcTurnStack);
-
+    const errorNoise = new Audio(
+      "https://www.soundjay.com/button/sounds/beep-10.mp3"
+    );
+    errorNoise.volume = 0.4;
+    errorNoise.play();
     if (gameStrictToggle) {
-      alert("wrong");
       gameStarter.disabled = false;
+      gameIterations.value = "X";
+      gameButtons.forEach((button) => (button.disabled = true));
+      setTimeout(() => {
+        gameIterations.value = "--";
+      }, 1000);
     } else {
       //Loop to show the pc Stack for user to memorize it
       for (let i = 0; i < pcTurnStack.length; i++) {
@@ -124,27 +125,27 @@ async function userPick(index) {
       }
     }
   } else if (pcTurnStack.length == userTurnStack.length) {
-    computerTurn();
-    gameButtons.forEach((button) => (button.disabled = true));
-    console.log("now it will be the computer turn");
-    gameInfo.innerHTML = "computer turn";
-  }
-}
+    //Move the length of the stack once the user chooses the right square
+    gameIterations.value = `${pcTurnStack.length}`;
+    setTimeout(() => {
+      computerTurn();
+    }, 700);
 
-function gamePlay() {
-  computerTurn();
+    gameButtons.forEach((button) => (button.disabled = true));
+  }
 }
 
 gameStarter.addEventListener("click", () => {
   // Once the game starts disable the start button!
-  gamePlay();
+  computerTurn();
   gameStarter.disabled = true;
 });
 
-//If the game is strict the user will loose if the guess is not right
+//If the user does not get it right the game is over
 gameStrict.addEventListener("click", () => {
   //change game strict variable to be set to the opposite
   gameStrictToggle = !gameStrictToggle;
+  gameStrictLight.classList.toggle("strict-mode-light");
 });
 
 //Reset Game
@@ -153,6 +154,9 @@ gameReset.addEventListener("click", () => {
   userTurnStack = [];
   gameIterations.value = "--";
   gameStarter.disabled = false;
+  //cancel all timers out
+  clearTimeout(timerColorUp);
+  clearTimeout(timerColorDown);
 });
 //Modify the userTurn function
 gameButtons.forEach((button, index) => {
