@@ -9,35 +9,27 @@ const gameInfo = document.getElementById("game-info");
 //When the game starts the buttons are disabled
 gameButtons.forEach((button) => (button.disabled = true));
 
-//colors for the squares
-const simonColors = {
-  0: ["rgb(255, 255, 194)", "rgb(255, 255, 0)"],
-  1: ["rgb(172, 172, 250)", " rgb(0, 0, 255)"],
-  2: ["rgb(247, 163, 163)", "rgb(255, 0, 0)"],
-  3: ["rgb(158, 255, 158)", "rgb(0, 255, 0)"],
-};
-
 //Data for each square
 const simonData = {
   0: {
     lightColor: "rgb(255, 255, 194)",
     darkerColor: "rgb(255, 255, 0)",
-    sound: "placeholder for now",
+    sound: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
   },
   1: {
     lightColor: "rgb(172, 172, 250)",
     darkerColor: "rgb(0, 0, 255)",
-    sound: "placeholder for now",
+    sound: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
   },
   2: {
     lightColor: "rgb(247, 163, 163)",
     darkerColor: "rgb(255, 0, 0)",
-    sound: "placeholder for now",
+    sound: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
   },
   3: {
     lightColor: "rgb(158, 255, 158)",
     darkerColor: "rgb(0, 255, 0)",
-    sound: "placeholder for now",
+    sound: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"),
   },
 };
 
@@ -57,7 +49,9 @@ function colorChange(elementIndex, delay = 500) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor =
-        simonColors[elementIndex][0];
+        simonData[elementIndex].lightColor;
+      simonData[elementIndex].sound.play();
+
       resolve();
     }, delay);
   });
@@ -68,7 +62,7 @@ function colorChangeWhite(elementIndex) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       gameButtons[elementIndex].style.backgroundColor =
-        simonColors[elementIndex][1];
+        simonData[elementIndex].darkerColor;
       resolve();
     }, 1000);
   });
