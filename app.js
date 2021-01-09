@@ -110,7 +110,7 @@ async function userPick(index) {
       "https://www.soundjay.com/button/sounds/beep-10.mp3"
     );
     errorNoise.volume = 0.4;
-    errorNoise.play();
+    await errorNoise.play();
     if (gameStrictToggle) {
       gameStarter.disabled = false;
       gameIterations.value = "X";
